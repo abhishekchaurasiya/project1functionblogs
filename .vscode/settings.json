@@ -1,0 +1,22 @@
+{
+    "editor.fontSize": 16,
+    "editor.wordWrap": "on",
+    "workbench.settings.editor": "json",
+    "html-css-class-completion.enableEmmetSupport": true,
+    "html-css-class-completion.CSSLanguages": [
+
+        "css",
+        "sass",
+        "scss"
+    ],
+    "material-icon-theme.activeIconPack": "react_redux",
+    "material-icon-theme.folders.color": "#90a4ae",
+    "material-icon-theme.folders.theme": "classic",
+    "editor.mouseWheelZoom": true,
+    "workbench.colorTheme": "Noctis",
+    // "workbench.colorTheme": "JellyFish",
+    "workbench.iconTheme": "material-icon-theme",
+    "files.autoSave": "afterDelay",
+    "editor.fontFamily": "Fira Code, 'Courier New', monospace",
+    "editor.fontLigatures": true,
+}
