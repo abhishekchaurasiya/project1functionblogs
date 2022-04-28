@@ -82,6 +82,8 @@ let GetBlog = async (req, res) => {
 // Updates a blog by changing its publish status i.e. adds publishedAt date and set published to true
 
 let updateBlogItems = async (req, res) => {
+
+    // Update blog items first way
     // try {
     //     let data = req.params.blogId;
 
@@ -107,6 +109,7 @@ let updateBlogItems = async (req, res) => {
     //     res.status(500).send({ message: "Error", error: error.message });
     // }
 
+    // Update blog items second way
     try {
         let data = req.body;
         let params = req.params;
@@ -177,7 +180,6 @@ let deleteBlog = async (req, res) => {
             return res.status(404).send({ status: true, message: "This blog document doesn't exist" });
         } else {
             return res.status(202).send({ status: true, data: user });
-
         }
 
     } catch (error) {
@@ -193,15 +195,35 @@ let deleteBlog = async (req, res) => {
 let deleteBlogByQuerParmas = async (req, res) => {
     try {
 
-        let { category, authorId, tags, subcategory, isPublished } = req.query;
+        let data = req.query;
 
-        let user = await blogModel.findOneAndUpdate({ category: category, authorid: authorId, tags: tags, subcategory: subcategory, isPublished: isPublished }, { new: true });
+        let { category, authorId, tags, subcategory, unPublished } = data;
 
-        if (!user) {
-            return res.status(404).send({ status: true, message: "This blog document doesn't exist" });
+        if (!category) {
+            return res.status(400).send({ message: "Category is required" });
+        };
+
+        if (authorId != 24) {
+            return res.status(400).send({ message: "AuthorId is required" });
+        };
+
+        if (!tags) {
+            return res.status(400).send({ message: "Tags is required" });
+        };
+
+        if (!subcategory) {
+            return res.status(400).send({ message: "Subcategory is required" });
+        };
+
+        let findBlogData = await blogModel.findOne(data);
+
+        if (Object.keys(findBlogData) != 0) {
+            let deleteData = await blogModel.updateOne({ data }, { $set: { isDeleted: true, isPublished: unPublished } }, { new: true });
+            return res.status(200).send({ message: deleteData, status: true });
         } else {
-            return res.status(202).send({ status: true, data: user });
+            return res.status(404).send({ message: "This blog document does not exists." });
         }
+
     } catch (error) {
         res.status(500).send({ msg: "Error", error: error.message });
     }
