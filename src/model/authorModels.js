@@ -11,13 +11,14 @@ let authorSchema = new mongoose.Schema({
     },
     title: {
         type: String,
-        enum: ["Mr", "Mrs", "Miss"]
+        enum: ["Mr", "Mrs", "Miss"],
+        description: "Can be only one of the enum value"
     },
     email: {
         type: String,
         required: true,
         match: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-        unique: true
+        unique: true,
     },
     password: {
         type: String,

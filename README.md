@@ -45,12 +45,16 @@ Updates a blog by changing its publish status i.e. adds publishedAt date and set
 Check if the blogId exists (must have isDeleted false). If it doesn't, return an HTTP status 404 with a response body like this
 Return an HTTP status 200 if updated successfully with a body like this
 Also make sure in the response you return the updated blog document.
+
 DELETE /blogs/:blogId
 Check if the blogId exists( and is not deleted). If it does, mark it deleted and return an HTTP status 200 without any response body.
 If the blog document doesn't exist then return an HTTP status of 404 with a body like this
+
 DELETE /blogs?queryParams
 Delete blog documents by category, authorid, tag name, subcategory name, unpublished
 If the blog document doesn't exist then return an HTTP status of 404 with a body like this
+
+
 Phase II
 Add authentication and authroisation feature
 POST /login

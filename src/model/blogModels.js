@@ -13,7 +13,8 @@ let blogSchema = new mongoose.Schema({
     authorId: {
         type: ObjectId,
         ref: "Author",
-        required: true
+        required: true,
+        // strictPopulate
     },
     tags: [String],
     category: {
@@ -41,3 +42,5 @@ let blogSchema = new mongoose.Schema({
 
 module.exports = mongoose.model("Blog", blogSchema);
 
+
+ 
