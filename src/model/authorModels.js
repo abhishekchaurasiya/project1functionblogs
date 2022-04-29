@@ -12,7 +12,6 @@ let authorSchema = new mongoose.Schema({
     title: {
         type: String,
         enum: ["Mr", "Mrs", "Miss"],
-        description: "Can be only one of the enum value"
     },
     email: {
         type: String,

@@ -5,6 +5,7 @@ let createAuthor = async (req, res) => {
 
         let data = req.body;
 
+        // Destructuring 
         let { fname, lname, title, email, password } = data;
         
         if (!fname) {
@@ -18,8 +19,14 @@ let createAuthor = async (req, res) => {
         };
 
         if (!email) {
-            return res.status(400).send({ msg: "Email name is required" })
+            return res.status(400).send({ msg: "Email is required" })
         }
+
+        if(!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(email)){
+            return res.status(400).send({message:"Please provide valid email"})
+        }
+
+
 
         let emailIs = await authorModel.findOne({ email })
         if (emailIs) {
@@ -29,7 +36,6 @@ let createAuthor = async (req, res) => {
         if (!password) {
             return res.status(400).send({ msg: "Password is required" });
         }
-
 
         if (Object.keys(data).length != 0) {
             let saveData = await authorModel.create(data);

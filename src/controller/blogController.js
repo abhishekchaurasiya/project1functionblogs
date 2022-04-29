@@ -8,6 +8,7 @@ let createBlog = async (req, res) => {
 
         let { title, body, authorId, tags, category, subcategory } = blogData;
 
+    
         if (!title) {
             return res.status(400).send({ message: "Title is required" });
         };
@@ -38,7 +39,7 @@ let createBlog = async (req, res) => {
             let saveData = await blogModel.create(blogData);
             res.status(201).send({ message: saveData, status: true });
         } else {
-            res.status(400).send({ message: "BAD invalid request" });
+            res.status(404).send({ message: "BAD invalid request" });
         }
     } catch (error) {
         res.status(500).send({ message: "Error", error: error.message });
@@ -66,10 +67,10 @@ let GetBlog = async (req, res) => {
             return res.status(400).send({ message: "tags is required" });
         };
 
-        let getData = await blogModel.find({ authorId: authorId, category: category, subcategory: subcategory, tags: tags }).populate("authorId");
+        let getData = await blogModel.find({ authorId: authorId, category: category, subcategory: subcategory, tags: tags , isDeleted:false}).populate("authorId");
 
         if (!getData) {
-            res.status(400).send({ message: "BAD invalid request" });
+            res.status(404).send({ message: "BAD invalid request" });
         } else {
             res.status(200).send({ message: getData, Status: true });
         }
@@ -84,30 +85,30 @@ let GetBlog = async (req, res) => {
 let updateBlogItems = async (req, res) => {
 
     // Update blog items first way
-    // try {
-    //     let data = req.params.blogId;
+    try {
+        let data = req.params.blogId;
 
-    //     if (!data) {
-    //         return res.status(400).send({ message: "This user id in not valid" });
-    //     }
+        if (!data) {
+            return res.status(400).send({ message: "This user id in not valid" });
+        }
 
 
-    //     let bodyData = req.body;
+        let bodyData = req.body;
 
-    //     let getBlogData = await blogModel.findById(data).populate("authorId");
+        let getBlogData = await blogModel.findById(data).populate("authorId");
 
-    //     Object.assign(getBlogData, bodyData, { isPublished: true });
+        Object.assign(getBlogData, bodyData, { isPublished: true });
 
-    //     getBlogData.save({ $push: { tags: req.body.tags, subcategory: req.body.subcategory } });
+        getBlogData.save({ $push: { tags: req.body.tags, subcategory: req.body.subcategory } });
 
-    //     if (!getBlogData) {
-    //         return res.status(400).send({ message: "BAD invalid request" });
-    //     } else {
-    //         return res.status(200).send({ message: getBlogData, Status: true });
-    //     }
-    // } catch (error) {
-    //     res.status(500).send({ message: "Error", error: error.message });
-    // }
+        if (!getBlogData) {
+            return res.status(400).send({ message: "BAD invalid request" });
+        } else {
+            return res.status(200).send({ message: getBlogData, Status: true });
+        }
+    } catch (error) {
+        res.status(500).send({ message: "Error", error: error.message });
+    }
 
     // Update blog items second way
     try {
@@ -144,10 +145,10 @@ let updateBlogItems = async (req, res) => {
         };
 
         // Here update collection data
-        let updateAllData = await blogModel.findOneAndUpdate({ _id: params.blogId }, { $set: { title: title, body: body, isPublished: true, isDeleted: false }, $push: { tags: tags, subcategory: subcategory } }, { new: true })
+        let updateAllData = await blogModel.findOneAndUpdate({ _id: params.blogId }, { $set: { title: title, body: body, isPublished: true, isDeleted: false }, $push: { tags: tags, subcategory: subcategory } }, { new: true }).populate("authorId")
 
         if (!updateBlogItems) {
-            return res.status(400).send({ message: "Not valid " });
+            return res.status(404).send({ message: "Not valid " });
 
         } else {
             return res.status(200).send({ message: updateAllData });
@@ -179,7 +180,7 @@ let deleteBlog = async (req, res) => {
         if (!user) {
             return res.status(404).send({ status: true, message: "This blog document doesn't exist" });
         } else {
-            return res.status(202).send({ status: true, data: user });
+            return res.status(201).send({ status: true, data: user });
         }
 
     } catch (error) {
@@ -203,7 +204,7 @@ let deleteBlogByQuerParmas = async (req, res) => {
             return res.status(400).send({ message: "Category is required" });
         };
 
-        if (authorId != 24) {
+        if (!authorId) {
             return res.status(400).send({ message: "AuthorId is required" });
         };
 
@@ -228,6 +229,23 @@ let deleteBlogByQuerParmas = async (req, res) => {
         res.status(500).send({ msg: "Error", error: error.message });
     }
 };
+
+
+
+// Login user api
+
+// let loggedInUser  = async (req,res)=>{
+//     let userName = req.body.fname;
+//     let userPassword = req.body.password;
+
+//     let userFind = await authorModel.
+// if(!userName){
+//     return res.status(400).send({})
+// }
+
+
+// }
+
 
 
 

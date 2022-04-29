@@ -6,17 +6,12 @@ let blogSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    body: {
-        type: String,
-        required: true,
-    },
-    authorId: {
-        type: ObjectId,
-        ref: "Author",
-        required: true,
-        // strictPopulate
-    },
+    body: { type: String, required: true, },
+    
+    authorId: { type: ObjectId, ref: "Author", required: true},  // strictPopulate},
+
     tags: [String],
+
     category: {
         type: String,
         required: true,
@@ -43,4 +38,4 @@ let blogSchema = new mongoose.Schema({
 module.exports = mongoose.model("Blog", blogSchema);
 
 
- 
+
