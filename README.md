@@ -57,12 +57,15 @@ If the blog document doesn't exist then return an HTTP status of 404 with a body
 
 Phase II
 Add authentication and authroisation feature
+
 POST /login
 Allow an author to login with their email and password. On a successful login attempt return a JWT token contatining the authorId
 If the credentials are incorrect return a suitable error message with a valid HTTP status code
-Authentication
+
+
 Add an authorisation implementation for the JWT token that validates the token before every protected endpoint is called. If the validation fails, return a suitable error message with a corresponding HTTP status code
 Protected routes are create a blog, edit a blog, get the list of blogs, delete a blog(s)
+
 Set the token, once validated, in the request - x-api-key
 Use a middleware for authentication purpose.
 Authorisation

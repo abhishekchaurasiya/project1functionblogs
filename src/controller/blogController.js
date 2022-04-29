@@ -85,30 +85,30 @@ let GetBlog = async (req, res) => {
 let updateBlogItems = async (req, res) => {
 
     // Update blog items first way
-    try {
-        let data = req.params.blogId;
+    // try {
+    //     let data = req.params.blogId;
 
-        if (!data) {
-            return res.status(400).send({ message: "This user id in not valid" });
-        }
+    //     if (!data) {
+    //         return res.status(400).send({ message: "This user id in not valid" });
+    //     }
 
 
-        let bodyData = req.body;
+    //     let bodyData = req.body;
 
-        let getBlogData = await blogModel.findById(data).populate("authorId");
+    //     let getBlogData = await blogModel.findById(data).populate("authorId");
 
-        Object.assign(getBlogData, bodyData, { isPublished: true });
+    //     Object.assign(getBlogData, bodyData, { isPublished: true });
 
-        getBlogData.save({ $push: { tags: req.body.tags, subcategory: req.body.subcategory } });
+    //     getBlogData.save({ $push: { tags: req.body.tags, subcategory: req.body.subcategory } });
 
-        if (!getBlogData) {
-            return res.status(400).send({ message: "BAD invalid request" });
-        } else {
-            return res.status(200).send({ message: getBlogData, Status: true });
-        }
-    } catch (error) {
-        res.status(500).send({ message: "Error", error: error.message });
-    }
+    //     if (!getBlogData) {
+    //         return res.status(400).send({ message: "BAD invalid request" });
+    //     } else {
+    //         return res.status(200).send({ message: getBlogData, Status: true });
+    //     }
+    // } catch (error) {
+    //     res.status(500).send({ message: "Error", error: error.message });
+    // }
 
     // Update blog items second way
     try {
@@ -230,21 +230,6 @@ let deleteBlogByQuerParmas = async (req, res) => {
     }
 };
 
-
-
-// Login user api
-
-// let loggedInUser  = async (req,res)=>{
-//     let userName = req.body.fname;
-//     let userPassword = req.body.password;
-
-//     let userFind = await authorModel.
-// if(!userName){
-//     return res.status(400).send({})
-// }
-
-
-// }
 
 
 
