@@ -29,7 +29,7 @@ router.delete("/blogs/:userId", authorizationMiddleWare, deleteBlog);
 router.delete("/blogs", authorizationMiddleWare, deleteBlogByQuerParmas);
 
 // Login user 
-router.post("/login", loggedInUser)
+router.post("/login", loggedInUser);
 
 
 

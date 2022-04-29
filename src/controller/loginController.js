@@ -9,6 +9,7 @@ let loggedInUser = async (req, res) => {
         let userEmail = req.body.email
         let userPassword = req.body.password;
 
+
         let userDetails = await authorModel.findOne({ email: userEmail, password: userPassword });
         if (!userDetails) {
             return res.status(400).send({ message: "your username and password is not correct" })
@@ -30,7 +31,6 @@ let loggedInUser = async (req, res) => {
     } catch (error) {
         return res.status(500).send({ message: error, Error: error.message })
     }
-
 }
 
 module.exports = { loggedInUser }
