@@ -12,21 +12,22 @@ const { createBlog, GetBlog, updateBlogItems, deleteBlog, deleteBlogByQuerParmas
 const { loggedInUser } = require("../controller/loginController")
 
 // Check Creadentail and Authorization from middle ware
-const { authorizationMiddleWare } = require("../middleware/authorizationMid")
+const { auth1, auth2, MiddlewareMid1, MiddlewareMid2 } = require("../middleware/authorizationMid")
+
 
 // API for createAuthor
 router.post("/authors", createAuthor)
 
 // API for create blogs
-router.post("/blogs", authorizationMiddleWare, createBlog);
+router.post("/blogs", auth1, MiddlewareMid1, createBlog);
 
-router.get("/blogs", authorizationMiddleWare, GetBlog);
+router.get("/blogs", auth1, auth2, GetBlog);
 
-router.put("/blogs/:blogId", authorizationMiddleWare, updateBlogItems);
+router.put("/blogs/:blogId", auth1, updateBlogItems);
 
-router.delete("/blogs/:userId", authorizationMiddleWare, deleteBlog);
+router.delete("/blogs/:userId", auth1, deleteBlog);
 
-router.delete("/blogs", authorizationMiddleWare, deleteBlogByQuerParmas);
+router.delete("/blogs", auth1, deleteBlogByQuerParmas);
 
 // Login user 
 router.post("/login", loggedInUser);

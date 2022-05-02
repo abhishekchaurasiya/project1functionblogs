@@ -12,7 +12,7 @@ let loggedInUser = async (req, res) => {
 
         let userDetails = await authorModel.findOne({ email: userEmail, password: userPassword });
         if (!userDetails) {
-            return res.status(400).send({ message: "your username and password is not correct" })
+            return res.status(400).send({ message: "your username and password is not correct" });
         }
 
         let token = jwt.sign({
