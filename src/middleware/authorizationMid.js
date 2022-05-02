@@ -92,32 +92,6 @@ const MiddlewareMid1 = async function (req, res, next) {
 };
 
 
-const MiddlewareMid2 = async function (req, res, next) {
-
-    let header = req.headers
-    let token = header['x-api-key'] || header["X-API-KEY"]
-
-    let bloggerVerification = await BloggerModel.findById(req.params.blogId)
-
-    if (!bloggerVerification) {
-        return res.status(404).send({ msg: "Error: Blog id does not exist" })
-    }
-
-    let AuthorDetail = await authorModel.findById(bloggerVerification.authorId).select({ _id: 1 });
-
-    if (!AuthorDetail) {
-        return res.status(404).send("Creadential are not matching")
-    }
-
-    let DecodeToken = jwt.verify(token, "Functionup-Team52")
-
-    if (DecodeToken.authorId != AuthorDetail.id) {
-
-        return res.status(404).send("Token Error: could not validate the authorization ")
-    }
-
-    return next()
-}
 
 
 
@@ -127,8 +101,7 @@ const MiddlewareMid2 = async function (req, res, next) {
 
 
 
-
-module.exports = { auth1, auth2, MiddlewareMid1, MiddlewareMid2 }
+module.exports = { auth1, auth2, MiddlewareMid1 }
 
 
 

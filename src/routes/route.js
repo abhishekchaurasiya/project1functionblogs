@@ -12,7 +12,7 @@ const { createBlog, GetBlog, updateBlogItems, deleteBlog, deleteBlogByQuerParmas
 const { loggedInUser } = require("../controller/loginController")
 
 // Check Creadentail and Authorization from middle ware
-const { auth1, auth2, MiddlewareMid1, MiddlewareMid2 } = require("../middleware/authorizationMid")
+const { auth1, auth2, MiddlewareMid1 } = require("../middleware/authorizationMid")
 
 
 // API for createAuthor

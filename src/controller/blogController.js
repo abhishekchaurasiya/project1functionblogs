@@ -1,5 +1,5 @@
 const blogModel = require('../model/blogModels');
-// let authorModel = require("../model/authorModels");
+let authorModel = require("../model/authorModels");
 
 
 let createBlog = async (req, res) => {
@@ -8,7 +8,6 @@ let createBlog = async (req, res) => {
 
         let { title, body, authorId, tags, category, subcategory } = blogData;
 
-    
         if (!title) {
             return res.status(400).send({ message: "Title is required" });
         };
@@ -67,7 +66,7 @@ let GetBlog = async (req, res) => {
             return res.status(400).send({ message: "tags is required" });
         };
 
-        let getData = await blogModel.find({ authorId: authorId, category: category, subcategory: subcategory, tags: tags , isDeleted:false}).populate("authorId");
+        let getData = await blogModel.find({ authorId: authorId, category: category, subcategory: subcategory, tags: tags, isDeleted: false }).populate("authorId");
 
         if (!getData) {
             res.status(404).send({ message: "BAD invalid request" });
@@ -117,20 +116,20 @@ let updateBlogItems = async (req, res) => {
 
         if (!params) {
             return res.status(400).send({ message: "this user id not valid" })
-        }
+        };
 
         let getParamsId = await blogModel.findOne({ _id: params.blogId })
 
         if (!getParamsId) {
             return res.status(400).send({ message: "this user id not valid" })
-        }
+        };
 
         // Destructuring all body data
         let { title, body, tags, subcategory } = data;
 
         if (!title) {
             return res.status(400).send({ messag: "title is required" })
-        }
+        };
 
         if (!body) {
             return res.status(400).send({ messag: "body is required" })
@@ -157,14 +156,12 @@ let updateBlogItems = async (req, res) => {
     } catch (error) {
         res.status(500).send({ message: "Error", error: error.message });
     }
-
 };
 
 // Delete blog document with userId
 
 let deleteBlog = async (req, res) => {
     try {
-
         let userId = req.params.userId;
 
         if (userId.length != 24) {

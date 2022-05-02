@@ -1,5 +1,5 @@
 {
-    "editor.fontSize": 16,
+    "editor.fontSize": 14,
     "editor.wordWrap": "on",
     "workbench.settings.editor": "json",
     "html-css-class-completion.enableEmmetSupport": true,
@@ -13,7 +13,7 @@
     "material-icon-theme.folders.color": "#90a4ae",
     "material-icon-theme.folders.theme": "classic",
     "editor.mouseWheelZoom": true,
-    "workbench.colorTheme": "JellyFish",
+    "workbench.colorTheme": "Noctis Azureus",
     // "workbench.colorTheme": "JellyFish",
     "workbench.iconTheme": "material-icon-theme",
     "files.autoSave": "afterDelay",
