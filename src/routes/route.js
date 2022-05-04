@@ -3,34 +3,31 @@ const express = require('express');
 const router = express.Router();
 
 // Author Details
-const { createAuthor } = require("../controller/authorController");
+const { createAuthor, loginAuthor } = require("../controller/authorController");
 
 // Blog Details
-const { createBlog, GetBlog, updateBlogItems, deleteBlog, deleteBlogByQuerParmas } = require('../controller/blogController');
-
-// Login Controller
-const { loggedInUser } = require("../controller/loginController")
+const { createBlog, GetBlog, updateBlog, deleteBlogById, deleteBlogByQuerParmas } = require('../controller/blogController');
 
 // Check Creadentail and Authorization from middle ware
-const { auth1, auth2, MiddlewareMid1 } = require("../middleware/authorizationMid")
+const { autherAuth } = require("../middleware/authorizationMid")
 
 
-// API for createAuthor
+// API for author routes
 router.post("/authors", createAuthor)
+router.post("/login", loginAuthor);
 
-// API for create blogs
-router.post("/blogs", auth1, MiddlewareMid1, createBlog);
+// API for blogs routes
+router.post("/blogs", autherAuth, createBlog);
 
-router.get("/blogs", auth1, auth2, GetBlog);
+router.get("/blogs", autherAuth, GetBlog);
 
-router.put("/blogs/:blogId", auth1, updateBlogItems);
+router.put("/blogs/:blogId", autherAuth, updateBlog);
 
-router.delete("/blogs/:userId", auth1, deleteBlog);
+router.delete("/blogs/:blogId", autherAuth, deleteBlogById);
 
-router.delete("/blogs", auth1, deleteBlogByQuerParmas);
+router.delete("/blogs", autherAuth, deleteBlogByQuerParmas);
 
 // Login user 
-router.post("/login", loggedInUser);
 
 
 

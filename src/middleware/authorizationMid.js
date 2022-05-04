@@ -7,101 +7,34 @@ const isValidObjectId = (ObjectId) => {
 };
 
 
-let auth1 = async (req, res, next) => {
+let autherAuth = async (req, res, next) => {
 
     try {
-        let token = req.headers["x-Api-key"];   // Check uppercase in headers
-        if (!token) token = req.headers["x-api-key"];  // Check lowercase in headers
+        let token = req.headers["x-api-key"];
 
         if (!token) {
-            return res.status(400).send({ message: "Token must be present", status: true })
+            return res.status(403).send({ status: false, message: "Missing authentication token in request" })
         };
 
-        let incodedToken = jwt.verify(token, "abhishek-project");
+        let decoded = await jwt.verify(token, "someeverysecuredprivatekey2022abhishek@(%*637#$^@()73)(#$%^)");
 
-        if (!incodedToken) {
+        if (!decoded) {
             return res.status(400).send({ status: false, message: "token is invalid" })
         }
 
-    } catch (error) {
-        return res.status(500).send({ message: error, Error: error.message })
-    }
-    next();
-};
+        req.authorId = decoded.authorId
 
-
-
-let auth2 = async (req, res, next) => {
-
-    try {
-        let userId = req.query.authorId;
-        let token = req.headers["x-Api-key"];   // Check uppercase in headers
-        if (!token) token = req.headers["x-api-key"];  // Check lowercase in 
-
-        let decodedToken = jwt.verify(token, "abhishek-project");
-        if (!decodedToken) return res.send({ status: false, msg: "token is not valid" });
-
-        let loggedInUser = decodedToken.userId;
-        if (userId != loggedInUser) {
-            return res.status(400).send({ message: "User not authorized" })
-        }
-
-        let user = await authorModel.findById({ _id: userId });
         next();
 
     } catch (error) {
-        return res.status(500).send({ message: error, Error: error.message })
-
+        return res.status(500).send({ message: error.message })
     }
-
-};
-
-
-// Phase 2 Problem 2
-
-const MiddlewareMid1 = async function (req, res, next) {
-    try {
-        let body = req.body
-
-        let header = req.headers;
-        let query = req.query.authorId
-
-        let token = header['x-api-key'] || header["X-API-KEY"]
-
-        let AuthorDetail = await authorModel.findOne({ $or: [{ email: body.email, password: body.password }, { _id: body.authorId }, { _id: query }] }).select({ _id: 1 });
-
-
-        if (!AuthorDetail) {
-            return res.status(404).send("Creadential are not matching")
-        }
-
-        let DecodeToken = jwt.verify(token, "abhishek-project")
-
-        if (DecodeToken.authorId != AuthorDetail.Id) {
-
-            return res.status(404).send("Token Error: could not validate the authorization ")
-        }
-
-        return next()
-
-    }
-    catch (err) {
-        return res.status(403).send({ msg: "Error", error: err.message })
-    }
-
 };
 
 
 
 
-
-
-
-
-
-
-
-module.exports = { auth1, auth2, MiddlewareMid1 }
+module.exports = { autherAuth }
 
 
 

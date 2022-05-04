@@ -4,26 +4,34 @@ let ObjectId = mongoose.Schema.Types.ObjectId;
 let blogSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true
+        required: "Blog title is required",
+        trim: true
     },
 
-    body: { type: String, required: true, },
+    body: { type: String, required: "Body is required", trim: true },
 
-    authorId: { type: ObjectId, ref: "Author", required: true },  // strictPopulate,
+    authorId: { type: ObjectId, ref: "Author", required: "Blog author is required" },  // strictPopulate,
 
-    tags: [String],
+    tags: [{
+        type: String,
+        trim: true
+    }],
 
-    category: { type: String, required: true },
+    category: { type: String, required: "Blog category is required", trim: true },
 
-    subcategory: [String],
+    subcategory: [{
+        type: String,
+        trim: true
+    }],
 
-    deletedAt: { type: Date, default: Date.now },
+    isPublished: { type: Boolean, default: false },
+
+    publishedAt: { type: Date, default: null },
 
     isDeleted: { type: Boolean, default: false },
 
-    publishedAt: { type: Date, default: Date.now },
+    deletedAt: { type: Date, default: null },
 
-    isPublished: { type: Boolean, default: false }
 
 }, { tiemstamps: true });
 
