@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 let ObjectId = mongoose.Types.ObjectId;
 const blogModel = require('../model/blogModels');
 let authorModel = require("../model/authorModels");
-const { param } = require('../routes/route');
 
 const isValid = function (value) {
 
@@ -24,7 +23,7 @@ let createBlog = async (req, res) => {
     try {
         let requestBody = req.body;
 
-        if (isValidReqestBody(requestBody)) {
+        if (!isValidReqestBody(requestBody)) {
             res.status(400).send({ status: false, message: "Invalid request parameter. Please provide author details" });
             return
         }
@@ -105,7 +104,7 @@ let GetBlog = async (req, res) => {
         const filterQuery = { isDeleted: false, deletedAt: null, isPublished: true };
         const queryParams = req.query;
 
-        if (isValidReqestBody(queryParams)) {
+        if (!isValidReqestBody(queryParams)) {
             const { authorId, category, subcategory, tags } = queryParams;
 
             if (isValid(authorId) && isValidObjectId(authorId)) {
@@ -127,17 +126,17 @@ let GetBlog = async (req, res) => {
             };
         }
 
-        const blogs = await blogModel.find(filterQuery);
+        const blogs = await blogModel.find(queryParams);
 
         if (Array.isArray(blogs) && blogs.length === 0) {
-            res.status(400).send({ status: false, messag: "No blogs found" })
+            res.status(400).send({ status: false, message: "No blogs found" })
             return
         }
 
         res.status(200).send({ status: true, message: "Blogs list", data: blogs })
 
     } catch (error) {
-        return res.status(500).send({ message: "Error", error: error.message });
+        return res.status(500).send({ message: error.message });
     }
 };
 
@@ -152,6 +151,7 @@ let updateBlog = async (req, res) => {
         const params = req.params;
         const blogId = params.blogId;
         const authorIdFromToken = req.authorId;
+        console.log(authorId)
 
         // Validation start 
         if (!isValidObjectId(blogId)) {

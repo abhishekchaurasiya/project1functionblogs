@@ -4,24 +4,24 @@ let jwt = require("jsonwebtoken");
 
 const isValid = function (value) {
 
-    if (typeof value == "undefined" || value == null) return false;
-    if (typeof value == "string" && value.trim().length === 0) return false;
+    if (typeof value === "undefined" || value === null) return false;
+    if (typeof value === "string" && value.trim().length === 0) return false;
     return true;
 }
 
 const isValidTitle = function (title) {
-    return ["Mr", "Mrs", "Miss", "Mast"].indexOf(title) != -1;
+    return ["Mr", "Mrs", "Miss", "Mast"].indexOf(title) !== -1;
 };
 
 const isValidReqestBody = function (requestBody) {
     return Object.keys(requestBody).length > 0;
 }
 
-let createAuthor = async (req, res) => {
+let createAuthor = async function (req, res) {
     try {
         const requestBody = req.body;
 
-        if (isValidReqestBody(requestBody)) {
+        if (!isValidReqestBody(requestBody)) {
             res.status(400).send({ status: false, message: "Invalid request parameter. Please provide author details" });
             return
         }
@@ -53,19 +53,19 @@ let createAuthor = async (req, res) => {
             return
         }
 
-        if (!isValid((/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(email))) {
+        if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(email)) {
             res.status(400).send({ status: false, message: "Please provide valid email" })
-            return
-        }
-
-        let emailIsAllreadyUsed = await authorModel.findOne({ email })
-        if (emailIsAllreadyUsed) {
-            res.status(400).send({ status: false, msg: `${email} Try another email is already used` });
             return
         }
 
         if (!isValid(password)) {
             res.status(400).send({ status: false, msg: "Password is required" });
+            return
+        }
+
+        let emailIsAllreadyUsed = await authorModel.findOne({ email })  //  {email:email} object shorthand property
+        if (emailIsAllreadyUsed) {
+            res.status(400).send({ status: false, msg: `${email} Try another email is already used` });
             return
         }
 
@@ -86,7 +86,7 @@ const loginAuthor = async (req, res) => {
     try {
         let requestBody = req.body;
 
-        if (isValidReqestBody(requestBody)) {
+        if (!isValidReqestBody(requestBody)) {
             res.status(400).send({ status: false, message: "Invalid request parameter. Please provide login details" });
             return
         }
@@ -96,7 +96,7 @@ const loginAuthor = async (req, res) => {
 
         // validation starts is here
         if (!isValid(email)) {
-            res.status(400).send({ status: false, msg: "Title is required" });
+            res.status(400).send({ status: false, msg: "Email is required" });
             return
         };
 
