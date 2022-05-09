@@ -19,7 +19,8 @@ let authorSchema = new mongoose.Schema({
     email: {
         type: String,
         required: "Email is required",
-        unique: true, trim: true,
+        unique: true,
+        trim: true,
         lowercase: true,
         validate: {
             validator: function (email) {
@@ -27,7 +28,11 @@ let authorSchema = new mongoose.Schema({
             }, message: "Please fill a valid email address", isAsnyc: false
         }
     },
-    password: { type: String, required: 'Password is required', trim: true }
+    password: {
+        type: String,
+        required: 'Password is required',
+        trim: true
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model("Author", authorSchema, 'authors');

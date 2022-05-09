@@ -10,7 +10,7 @@ const isValid = function (value) {
 }
 
 const isValidTitle = function (title) {
-    return ["Mr", "Mrs", "Miss", "Mast"].indexOf(title) !== -1;
+    return ["Mr", "Mrs", "Miss", "Mast"].indexOf(title) != -1;
 };
 
 const isValidReqestBody = function (requestBody) {

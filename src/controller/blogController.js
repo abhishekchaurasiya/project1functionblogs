@@ -1,8 +1,8 @@
 
 const mongoose = require('mongoose');
-let ObjectId = mongoose.Types.ObjectId;
+const ObjectId = mongoose.Types.ObjectId;
 const blogModel = require('../model/blogModels');
-let authorModel = require("../model/authorModels");
+const authorModel = require("../model/authorModels");
 
 const isValid = function (value) {
 
@@ -143,7 +143,7 @@ let GetBlog = async (req, res) => {
 // Updates a blog by changing the its title, body, adding tags, adding a subcategory. (Assuming tag and subcategory received in body is need to be added)
 // Updates a blog by changing its publish status i.e. adds publishedAt date and set published to true
 
-let updateBlog = async (req, res) => {
+let updateBlog = async function (req, res) {
 
     // Update blog items second way
     try {
